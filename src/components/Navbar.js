@@ -4,19 +4,30 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { connectMetamask } from '../utils/Web3';
 import { MdAdminPanelSettings } from 'react-icons/md';
+import { useNavigate } from 'react-router';
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const [accountAddress, setAccountAddress] = useState(null);
-  console.log(accountAddress);
-  // if (accountAddress !== '0xbb729f824d6c8ca59106dce008265a74b785aa99') {
-  //   toast.error('NOT A ADMIN', { autoClose: 2000 });
-  // }
+
+  const adminAddress = '0xbb729f824d6c8ca59106dce008265a74b785aa99';
+
+  const handleClick = () => {
+    if (accountAddress === '0xbb729f824d6c8ca59106dce008265a74b785aa99') {
+      navigate(`/admin/${adminAddress}`);
+    } else {
+      toast.error('NOT A ADMIN', { autoClose: 2000 });
+    }
+  };
   return (
     <>
       <Nav>
         <NavLeft></NavLeft>
         <NavRight>
-          <MdAdminPanelSettings fontSize={30} />
+          <IconContainer onClick={handleClick}>
+            <MdAdminPanelSettings fontSize={30} cursor="pointer" />
+            <span>2</span>
+          </IconContainer>
           <WalletButton
             variant="contained"
             onClick={() => connectMetamask(setAccountAddress)}
@@ -84,4 +95,23 @@ const WalletButton = styled.button`
   background-color: #1f99f0;
   color: white;
   cursor: pointer;
+`;
+const IconContainer = styled.div`
+  position: relative;
+  cursor: pointer;
+  margin-right: 10px;
+  span {
+    font-size: 12px;
+    height: 16px;
+    width: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: -5px;
+    background-color: red;
+    right: 5px;
+    color: white;
+    border-radius: 50%;
+  }
 `;

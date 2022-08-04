@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
+import Deposit from './pages/Deposit';
 import Home from './pages/Home';
 
 function App() {
@@ -9,6 +10,7 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/admin/:id" element={<Deposit />} />
         </Routes>
       </Router>
     </div>

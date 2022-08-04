@@ -19,7 +19,7 @@ const Winner = ({ show, win, setShow }) => {
               <h1>CONGRATULATIONS</h1>
               <h3>Winner Wallet Address:</h3>
 
-              <p> {win}</p>
+              <p>{win}</p>
             </Content>
           </Popup>
           ;

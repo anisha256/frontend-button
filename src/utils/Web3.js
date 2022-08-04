@@ -38,6 +38,7 @@ export const connectMetamask = async (setAccountAddress) => {
       console.log(`selected account changed to is ${selectedAccount}`);
       setAccountAddress(selectedAccount);
     });
+    localStorage.setItem('wallet-address', selectedAccount);
     isInitialized = true;
     console.log(isInitialized);
   }
@@ -76,7 +77,9 @@ export const getCountdownEnd = () => {
   return cbContract.methods.countdownEnd().call();
 };
 export const winner = async () => {
-  return cbContract.methods.winner().send();
+  return cbContract.methods.winner().send({
+    from: selectedAccount,
+  });
 };
 export const getWinner = () => {
   return cbContract.methods.winnerAddress().call();

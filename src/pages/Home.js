@@ -25,8 +25,8 @@ const Home = () => {
   const [timerMinutes, setTimerMinutes] = useState(0);
   const [timerSeconds, setTimerSeconds] = useState(0);
 
-  const [win, setWin] = useState();
   const [show, setShow] = useState(true);
+  const [win, setWin] = useState();
 
   const [success, setSuccess] = useState(false);
   const [cnt, setCnt] = useState(0);
@@ -82,13 +82,13 @@ const Home = () => {
 
   const handleClick = async () => {
     try {
-      // await handleApprove();
       if (cnt === 1) {
         await buttonClicked();
         setSuccess(true);
         toast.success('Participation Success', { autoClose: 2000 });
       } else {
-        await buttonClicked();
+        await changeDeposit(false, 0);
+        buttonClicked();
         console.log('changeDeposit');
         setSuccess(true);
         toast.success('Participation Success', { autoClose: 2000 });
@@ -96,13 +96,6 @@ const Home = () => {
     } catch (error) {}
   };
 
-  const fetchWinner = async () => {
-    try {
-      const winnerAdd = await getWinner();
-      setWin(winnerAdd);
-      winner();
-    } catch (error) {}
-  };
   const fetchwin = async () => {
     const winnn = await getWinner();
     setWin(winnn);
@@ -112,22 +105,22 @@ const Home = () => {
   useEffect(() => {
     fetchPrize();
     fetchDate();
-    if (countdownEnd === 0) {
-      fetchwin();
-    }
+
+    // fetchWinner();
+    fetchwin();
   }, []);
 
   return (
     <Container>
-      {cnt >= 1 && (
+      {/* {cnt >= 1 && (
         <UpdateDeposit
           show={show}
           setShow={setShow}
           setUpdateDepositData={setUpdateDepositData}
           updateDepositData={updateDepositData}
         />
-      )}
-      {countdownEnd === 0 && <Winner win={win} show={show} setShow={setShow} />}
+      )} */}
+      {<Winner win={win} show={show} setShow={setShow} />}
       <Content>
         <h1>Button</h1>
         <h2>COUNT DOWN</h2>
