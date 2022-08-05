@@ -82,13 +82,14 @@ const Home = () => {
 
   const handleClick = async () => {
     try {
-      if (cnt === 1) {
+      // await handleApprove();
+      await buttonClicked();
+      console.log('buttonClicked');
+      setSuccess(true);
+      toast.success('Participation Success', { autoClose: 2000 });
+      if (cnt >= 1) {
+        toast.warn('request for paticipation ', { autoClose: 2000 });
         await buttonClicked();
-        setSuccess(true);
-        toast.success('Participation Success', { autoClose: 2000 });
-      } else {
-        await changeDeposit(false, 0);
-        buttonClicked();
         console.log('changeDeposit');
         setSuccess(true);
         toast.success('Participation Success', { autoClose: 2000 });
