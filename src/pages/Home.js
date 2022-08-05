@@ -120,7 +120,7 @@ const Home = () => {
           updateDepositData={updateDepositData}
         />
       )} */}
-      {<Winner win={win} show={show} setShow={setShow} />}
+      {/* {<Winner win={win} show={show} setShow={setShow} />} */}
       <Content>
         <h1>Button</h1>
         <h2>COUNT DOWN</h2>
@@ -191,7 +191,6 @@ const Content = styled.section`
     padding: 20px 0px;
   }
   p {
-    /* padding: 20px 0px; */
     text-align: center;
     font-size: 20px;
   }

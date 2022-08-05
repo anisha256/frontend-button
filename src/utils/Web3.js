@@ -11,11 +11,11 @@ let isInitialized = false;
 const web3 = new Web3(window.ethereum);
 ttContract = new web3.eth.Contract(
   TestTokenBuild.abi,
-  '0x8127499D2225e4003BB8b9930E9d208d826E0105'
+  '0x2357F54Ca2CfF79d1a2D9A8C480f0E1Af96c465d'
 );
 cbContract = new web3.eth.Contract(
   CountdownButtonBuild.abi,
-  '0x3A5EF132a2c19A91D7b87cAc509667Bc0352A5F0'
+  '0xE995a02d7872e116fcF98294C33B06C2AC71338B'
 );
 
 export const connectMetamask = async (setAccountAddress) => {
@@ -55,7 +55,7 @@ export const buttonClicked = async () => {
 
 export const getPrize = async () => {
   return await ttContract.methods
-    .balanceOf('0x3A5EF132a2c19A91D7b87cAc509667Bc0352A5F0')
+    .balanceOf('0xE995a02d7872e116fcF98294C33B06C2AC71338B')
     .call();
 };
 
@@ -65,7 +65,7 @@ export const approve = async () => {
   }
   return ttContract.methods
     .approve(
-      '0x3A5EF132a2c19A91D7b87cAc509667Bc0352A5F0',
+      '0xE995a02d7872e116fcF98294C33B06C2AC71338B',
       '10000000000000000000000'
     )
     .send({

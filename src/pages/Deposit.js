@@ -69,9 +69,10 @@ const Deposit = () => {
             </ButtonDiv>
           </InputC>
         </EditForm>
-        <Button onClick={fetchWinner}>Winner</Button>
       </Content>
-
+      <Line></Line>
+      <h2>Get winner</h2>
+      <Button onClick={fetchWinner}>Winner</Button>
       <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -90,8 +91,13 @@ const Deposit = () => {
 export default Deposit;
 const Container = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 30px;
+  h2 {
+    color: white;
+  }
 `;
 
 const Content = styled.div`
@@ -104,7 +110,6 @@ const Content = styled.div`
   height: 500px;
   width: 400px;
   padding: 20px;
-  /* border: 1px solid white; */
   p {
     text-align: center;
     font-size: 18px;
@@ -174,4 +179,9 @@ const Input = styled.input`
 const ButtonDiv = styled.div`
   display: flex;
   gap: 20px;
+`;
+const Line = styled.div`
+  height: 0px;
+  width: 400px;
+  border: 1px solid white;
 `;
