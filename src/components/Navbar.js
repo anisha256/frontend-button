@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { connectMetamask } from '../utils/Web3';
 import { MdAdminPanelSettings } from 'react-icons/md';
 import { useNavigate } from 'react-router';
@@ -12,22 +10,24 @@ const Navbar = () => {
 
   const adminAddress = '0xbb729f824d6c8ca59106dce008265a74b785aa99';
 
+  if (accountAddress !== adminAddress) {
+    navigate('/');
+  }
+
   const handleClick = () => {
-    if (accountAddress === '0xbb729f824d6c8ca59106dce008265a74b785aa99') {
-      navigate(`/admin/${adminAddress}`);
-    } else {
-      toast.error('NOT A ADMIN', { autoClose: 2000 });
-    }
+    navigate(`/admin/update/${adminAddress}/deposit`);
   };
   return (
     <>
       <Nav>
         <NavLeft></NavLeft>
         <NavRight>
-          <IconContainer onClick={handleClick}>
-            <MdAdminPanelSettings fontSize={30} cursor="pointer" />
-            <span>2</span>
-          </IconContainer>
+          {accountAddress === adminAddress && (
+            <IconContainer onClick={handleClick}>
+              <MdAdminPanelSettings fontSize={30} cursor="pointer" />
+              <span>2</span>
+            </IconContainer>
+          )}
           <WalletButton
             variant="contained"
             onClick={() => connectMetamask(setAccountAddress)}
@@ -41,17 +41,6 @@ const Navbar = () => {
           </WalletButton>
         </NavRight>
       </Nav>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
     </>
   );
 };
@@ -62,8 +51,6 @@ const Nav = styled.div`
   width: 100%;
   height: 80px;
   background-color: #1b1c1c;
-  /* display: grid;
-  grid-template-columns: 60px 1fr 2fr 1.5fr 60px; */
   position: sticky;
   display: flex;
   flex-direction: row;

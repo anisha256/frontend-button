@@ -1,32 +1,26 @@
 import React from 'react';
 import styled from 'styled-components';
 import { FiX } from 'react-icons/fi';
-import image from '../assets/winner.png';
+import image from '../assets/request.png';
 
-const Winner = ({ show, win, setShow }) => {
+const Notify = ({ showPop, setShowPop, setAcceptReq }) => {
   const handleCross = () => {
     console.log('clicked');
-    setShow(false);
+    setShowPop(false);
   };
   return (
     <>
-      {show && (
+      {showPop && (
         <MainPopup>
           <Popup>
-            {' '}
             <CloseButton onClick={handleCross}>
               <FiX fontSize={28} color="white" cursor="pointer" />
             </CloseButton>
             <Content>
-              <h1>CONGRATULATIONS</h1>
               <ImageDiv>
                 <Image src={image} />
               </ImageDiv>
-              <h3>Winner Address:</h3>
-              <p>{`${win.slice(0, 12)}...${win.slice(
-                win.length - 4,
-                win.length
-              )}`}</p>
+              <h1>REQUESTED TO PARTICIPATE</h1>
             </Content>
           </Popup>
           ;
@@ -36,7 +30,7 @@ const Winner = ({ show, win, setShow }) => {
   );
 };
 
-export default Winner;
+export default Notify;
 const MainPopup = styled.div`
   top: 0;
   right: 0;
@@ -63,22 +57,30 @@ const Popup = styled.div`
   border-radius: 10px;
   justify-content: center;
   align-items: center;
-  height: 60vh;
+  height: 42vh;
   width: 400px;
   margin-top: 25%;
   border: none;
+  /* background-color: #1b1c1c; */
 
   h1 {
     color: white;
     text-align: center;
     padding-bottom: 20px;
-    font-size: 40px;
+    font-size: 20px;
   }
 
   h3 {
     padding-top: 20px;
     text-align: center;
     font-size: 30px;
+  }
+  @media screen and (max-width: 390px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 45vh;
+    bottom: 30%;
   }
 `;
 

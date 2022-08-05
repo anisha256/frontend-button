@@ -15,6 +15,7 @@ import {
   getWinner,
   winner,
 } from '../utils/Web3';
+import Notify from '../components/Notify';
 
 const Home = () => {
   const [prize, setPrize] = useState(0);
@@ -26,14 +27,16 @@ const Home = () => {
   const [timerSeconds, setTimerSeconds] = useState(0);
 
   const [show, setShow] = useState(true);
+  const [showPop, setShowPop] = useState(false);
+  const [acceptReq, setAcceptReq] = useState(false);
   const [win, setWin] = useState();
 
   const [success, setSuccess] = useState(false);
   const [cnt, setCnt] = useState(0);
 
-  const [updateDepositData, setUpdateDepositData] = useState({
-    newAmount: 0,
-  });
+  // const [updateDepositData, setUpdateDepositData] = useState({
+  //   newAmount: 0,
+  // });
 
   let interval;
 
@@ -78,19 +81,26 @@ const Home = () => {
   };
   const handleApprove = async () => {
     await approve();
+    toast.success('Approved Successfully', { autoClose: 4000 });
   };
 
+  const handlePop = () => {
+    setShowPop(true);
+    console.log('showPop', showPop);
+  };
   const handleClick = async () => {
     try {
-      // await handleApprove();
-      await buttonClicked();
-      console.log('buttonClicked');
-      setSuccess(true);
-      toast.success('Participation Success', { autoClose: 2000 });
       if (cnt >= 1) {
-        toast.warn('request for paticipation ', { autoClose: 2000 });
+        console.log('count is more than 0');
+        // toast.warn('request for paticipation ', { autoClose: 2000 });
+        await handlePop();
+        console.log('buhahahha');
         await buttonClicked();
         console.log('changeDeposit');
+        setSuccess(true);
+        toast.success('Participation Success', { autoClose: 4000 });
+      } else {
+        await buttonClicked();
         setSuccess(true);
         toast.success('Participation Success', { autoClose: 2000 });
       }
@@ -121,7 +131,16 @@ const Home = () => {
           updateDepositData={updateDepositData}
         />
       )} */}
-      {/* {<Winner win={win} show={show} setShow={setShow} />} */}
+      {
+        <Notify
+          setAcceptReq={setAcceptReq}
+          showPop={showPop}
+          setShowPop={setShowPop}
+        />
+      }
+      {new Date().getTime() / 1000 >= countdownEnd && (
+        <Winner win={win} show={show} setShow={setShow} />
+      )}
       <Content>
         <h1>Button</h1>
         <h2>COUNT DOWN</h2>

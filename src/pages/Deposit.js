@@ -115,7 +115,6 @@ const Content = styled.div`
   p {
     text-align: center;
     font-size: 18px;
-    /* padding-top: 20px; */
   }
   h1 {
     color: white;
