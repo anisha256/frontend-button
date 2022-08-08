@@ -4,21 +4,21 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import CountdownTimer from '../components/CountdownTimer';
 import Winner from '../components/Winner';
-import UpdateDeposit from '../components/UpdateDeposit';
 import {
   approve,
   buttonClicked,
-  changeDeposit,
   getCount,
   getCountdownEnd,
   getPrize,
   getWinner,
+  getInitial,
+  getFinal,
+  getBalance,
   winner,
 } from '../utils/Web3';
 import Notify from '../components/Notify';
 
 const Home = () => {
-  const [prize, setPrize] = useState(0);
   const [countdownEnd, setCountdownEnd] = useState();
 
   const [timerDays, setTimerDays] = useState(0);
@@ -26,26 +26,48 @@ const Home = () => {
   const [timerMinutes, setTimerMinutes] = useState(0);
   const [timerSeconds, setTimerSeconds] = useState(0);
 
-  const [show, setShow] = useState(true);
   const [showPop, setShowPop] = useState(false);
+  const [show, setShow] = useState(false);
+
   const [acceptReq, setAcceptReq] = useState(false);
   const [win, setWin] = useState();
 
   const [success, setSuccess] = useState(false);
-  const [cnt, setCnt] = useState(0);
 
-  // const [updateDepositData, setUpdateDepositData] = useState({
-  //   newAmount: 0,
+  const [prize, setPrize] = useState(0);
+  const [balance, setBalance] = useState(0);
+  const [cnt, setCnt] = useState(0);
+  const [initialAmount, setInitialAmount] = useState(0);
+  const [finalAmount, setFinalAmount] = useState(0);
+
+  // const [data, setData] = useState({
+  //   initialAmount: 0,
+  //   finalAmount: 0,
+  //   prize: 0,
+  //   cnt: 0,
+  //   balance: 0,
   // });
 
   let interval;
 
-  const fetchPrize = async () => {
-    const p = await getPrize();
+  const fetchData = async () => {
     const c = await getCount();
-    setPrize(p);
     setCnt(c);
+
+    const b = await getBalance();
+    setBalance(b);
+
+    const i = await getInitial();
+    setInitialAmount(i);
+
+    const f = await getFinal();
+    setFinalAmount(f);
+
+    const p = await getPrize();
+    setPrize(p);
+
     console.log('cnt', cnt);
+    console.log('balance', balance);
   };
 
   const fetchDate = () => {
@@ -90,9 +112,14 @@ const Home = () => {
   };
   const handleClick = async () => {
     try {
-      if (cnt >= 1) {
+      if (
+        (cnt >= 1 && balance !== 0 && balance >= initialAmount) ||
+        balance >= finalAmount
+      ) {
+        if (balance < initialAmount || balance < finalAmount) {
+          toast.error('Not sufficient Balance', { autoClose: 4000 });
+        }
         console.log('count is more than 0');
-        // toast.warn('request for paticipation ', { autoClose: 2000 });
         await handlePop();
         console.log('buhahahha');
         await buttonClicked();
@@ -106,31 +133,27 @@ const Home = () => {
       }
     } catch (error) {}
   };
+  const declareWinner = async () => {
+    await winner();
+    setShow(true);
+  };
 
   const fetchwin = async () => {
-    const winnn = await getWinner();
-    setWin(winnn);
-    console.log(win);
+    const winn = await getWinner();
+    setWin(winn);
+    console.log('win', win);
   };
 
   useEffect(() => {
-    fetchPrize();
+    fetchData();
     fetchDate();
-
-    // fetchWinner();
-    fetchwin();
+    if (new Date().getTime() / 1000 >= countdownEnd) {
+      fetchwin();
+    }
   }, []);
 
   return (
     <Container>
-      {/* {cnt >= 1 && (
-        <UpdateDeposit
-          show={show}
-          setShow={setShow}
-          setUpdateDepositData={setUpdateDepositData}
-          updateDepositData={updateDepositData}
-        />
-      )} */}
       {
         <Notify
           setAcceptReq={setAcceptReq}
@@ -138,11 +161,12 @@ const Home = () => {
           setShowPop={setShowPop}
         />
       }
-      {new Date().getTime() / 1000 >= countdownEnd && (
-        <Winner win={win} show={show} setShow={setShow} />
-      )}
+      {show && <Winner win={win} show={show} />}
       <Content>
         <h1>Button</h1>
+        {new Date().getTime() / 1000 >= countdownEnd && (
+          <ApproveButton onClick={declareWinner}>winner</ApproveButton>
+        )}
         <h2>COUNT DOWN</h2>
         {/* <p>{countdownEnd}</p> */}
         <CountdownTimer

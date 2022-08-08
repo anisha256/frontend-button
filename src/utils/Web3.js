@@ -11,11 +11,11 @@ let isInitialized = false;
 const web3 = new Web3(window.ethereum);
 ttContract = new web3.eth.Contract(
   TestTokenBuild.abi,
-  '0x2357F54Ca2CfF79d1a2D9A8C480f0E1Af96c465d'
+  '0x2EF22D288CaC35d1036314813706e7F3f27dcF65'
 );
 cbContract = new web3.eth.Contract(
   CountdownButtonBuild.abi,
-  '0xE995a02d7872e116fcF98294C33B06C2AC71338B'
+  '0xAE9BB3A2C6bBf0381A62EdD39a8F259b19Fa6a8e'
 );
 
 export const connectMetamask = async (setAccountAddress) => {
@@ -55,8 +55,14 @@ export const buttonClicked = async () => {
 
 export const getPrize = async () => {
   return await ttContract.methods
-    .balanceOf('0xE995a02d7872e116fcF98294C33B06C2AC71338B')
+    .balanceOf('0xAE9BB3A2C6bBf0381A62EdD39a8F259b19Fa6a8e')
     .call();
+};
+export const getBalance = async () => {
+  if (!isInitialized) {
+    await connectMetamask();
+  }
+  return await ttContract.methods.balanceOf(selectedAccount).call();
 };
 
 export const approve = async () => {
@@ -65,7 +71,7 @@ export const approve = async () => {
   }
   return ttContract.methods
     .approve(
-      '0xE995a02d7872e116fcF98294C33B06C2AC71338B',
+      '0xAE9BB3A2C6bBf0381A62EdD39a8F259b19Fa6a8e',
       '10000000000000000000000'
     )
     .send({
@@ -86,6 +92,12 @@ export const getWinner = () => {
 };
 export const getCount = () => {
   return cbContract.methods.count().call();
+};
+export const getInitial = () => {
+  return cbContract.methods.initialDepositAmount().call();
+};
+export const getFinal = () => {
+  return cbContract.methods.depositAmount().call();
 };
 
 export const changeDeposit = async (change, newAmount) => {

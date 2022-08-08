@@ -3,35 +3,32 @@ import styled from 'styled-components';
 import { FiX } from 'react-icons/fi';
 import image from '../assets/winner.png';
 
-const Winner = ({ show, win, setShow }) => {
-  const handleCross = () => {
-    console.log('clicked');
-    setShow(false);
-  };
+const Winner = ({ win, show, setShow }) => {
+  // const handleCross = () => {
+  //   console.log('clicked');
+  //   setShow(false);
+  // };
   return (
     <>
-      {show && (
-        <MainPopup>
-          <Popup>
-            {' '}
-            <CloseButton onClick={handleCross}>
-              <FiX fontSize={28} color="white" cursor="pointer" />
-            </CloseButton>
-            <Content>
-              <h1>CONGRATULATIONS</h1>
-              <ImageDiv>
-                <Image src={image} />
-              </ImageDiv>
-              <h3>Winner Address:</h3>
-              <p>{`${win.slice(0, 12)}...${win.slice(
-                win.length - 4,
-                win.length
-              )}`}</p>
-            </Content>
-          </Popup>
-          ;
-        </MainPopup>
-      )}
+      <MainPopup>
+        <Popup>
+          {/* {' '}
+          <CloseButton onClick={handleCross}>
+            <FiX fontSize={28} color="white" cursor="pointer" />
+          </CloseButton> */}
+          <Content>
+            <h1>CONGRATULATIONS</h1>
+            <ImageDiv>
+              <Image src={image} />
+            </ImageDiv>
+            <h3>Winner Address:</h3>
+            <p>{`${win.slice(0, 12)}...${win.slice(
+              win.length - 4,
+              win.length
+            )}`}</p>
+          </Content>
+        </Popup>
+      </MainPopup>
     </>
   );
 };

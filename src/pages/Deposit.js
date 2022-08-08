@@ -23,7 +23,7 @@ const Deposit = () => {
     setUpdateDepositData({
       newAmount: updateDepositData.newAmount,
     });
-    const amount = updateDepositData.newAmount * 10 ** 18;
+    const amount = updateDepositData.newAmount;
     console.log(amount);
     await changeDeposit(true, amount);
     console.log(updateDepositData);

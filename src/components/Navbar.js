@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { connectMetamask } from '../utils/Web3';
 import { MdAdminPanelSettings } from 'react-icons/md';
 import { useNavigate } from 'react-router';
+import { NavLink } from 'react-router-dom';
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -13,20 +14,22 @@ const Navbar = () => {
   if (accountAddress !== adminAddress) {
     navigate('/');
   }
-
-  const handleClick = () => {
-    navigate(`/admin/update/${adminAddress}/deposit`);
-  };
   return (
     <>
       <Nav>
         <NavLeft></NavLeft>
         <NavRight>
           {accountAddress === adminAddress && (
-            <IconContainer onClick={handleClick}>
-              <MdAdminPanelSettings fontSize={30} cursor="pointer" />
-              <span>2</span>
-            </IconContainer>
+            <NavLink to="/admin/update/deposit">
+              <IconContainer>
+                <MdAdminPanelSettings
+                  fontSize={30}
+                  cursor="pointer"
+                  color="white"
+                />
+                <span>2</span>
+              </IconContainer>
+            </NavLink>
           )}
           <WalletButton
             variant="contained"
@@ -87,6 +90,7 @@ const IconContainer = styled.div`
   position: relative;
   cursor: pointer;
   margin-right: 10px;
+  /* border: 1px solid white; */
   span {
     font-size: 12px;
     height: 16px;
