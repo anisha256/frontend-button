@@ -27,7 +27,7 @@ const Home = () => {
   const [timerSeconds, setTimerSeconds] = useState(0);
 
   const [showPop, setShowPop] = useState(false);
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(true);
 
   const [acceptReq, setAcceptReq] = useState(false);
   const [win, setWin] = useState();
@@ -135,13 +135,11 @@ const Home = () => {
   };
   const declareWinner = async () => {
     await winner();
-    setShow(true);
   };
 
   const fetchwin = async () => {
     const winn = await getWinner();
     setWin(winn);
-    console.log('win', win);
   };
 
   useEffect(() => {
@@ -149,6 +147,7 @@ const Home = () => {
     fetchDate();
     if (new Date().getTime() / 1000 >= countdownEnd) {
       fetchwin();
+      console.log('win', win);
     }
   }, []);
 
@@ -161,7 +160,9 @@ const Home = () => {
           setShowPop={setShowPop}
         />
       }
-      {show && <Winner win={win} show={show} />}
+      {win !== '0x0000000000000000000000000000000000000000' && (
+        <Winner win={win} show={show} />
+      )}
       <Content>
         <h1>Button</h1>
         {new Date().getTime() / 1000 >= countdownEnd && (
